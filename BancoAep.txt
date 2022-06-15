@@ -1,0 +1,107 @@
+CREATE TABLE Cliente (
+                ID_CLiente int NOT NULL,
+                ID_Endereco int NOT NULL,
+                Nome VARCHAR2(30) NOT NULL,
+                Email VARCHAR2(30) NOT NULL,
+                Telefone VARCHAR2(30) NOT NULL,
+                CONSTRAINT CLIENTE_PK PRIMARY KEY (ID_CLiente),
+                CONSTRAINT ENDERECO_CLIENTE_FK FOREIGN KEY (ID_Endereco) references Endereco(ID_Endereco)
+);
+CREATE TABLE Cliente_Fisico (
+                ID_CLiente int NOT NULL,
+                CPF VARCHAR2(30) NOT NULL,
+                CONSTRAINT CLIENTEFISICO_PK FOREIGN KEY (ID_CLiente) references  Cliente (ID_CLiente)
+);
+CREATE TABLE Cliente_Juridico (
+                ID_CLiente int NOT NULL,
+                CNPJ VARCHAR2(30) NOT NULL,
+                Razao_Social VARCHAR(30) NOT NULL,
+                CONSTRAINT CLIENTEJURIDICO_FK FOREIGN KEY (ID_CLiente) references  Cliente (ID_CLiente)
+);
+CREATE TABLE Empresa (
+                ID_Empresa int NOT NULL,
+                ID_Endereco int NOT NULL,
+                NomeEmpresa VARCHAR2(30) NOT NULL,
+                CNPJ VARCHAR2(30) NOT NULL,
+                Razao_Social VARCHAR(30) NOT NULL,
+                CONSTRAINT ID_EMPRESA_PK PRIMARY KEY (ID_Empresa),
+                CONSTRAINT ENDERECO_EMPRESA_FK FOREIGN KEY (ID_Endereco) references Endereco(ID_Endereco)
+);
+CREATE TABLE Pedido_Empresa (
+                ID_pedido int NOT NULL, 
+                ID_Empresa int NOT NULL,
+                CONSTRAINT IDPEDIDO_FK FOREIGN KEY (ID_pedido) references Pedido (ID_pedido),
+                CONSTRAINT IDEMPRESA_FK FOREIGN KEY (ID_Empresa) references Empresa (ID_Empresa)
+);
+CREATE TABLE Endereco (
+                ID_Endereco int NOT NULL,
+                Cidade VARCHAR2(30) NOT NULL,
+                Estado VARCHAR2(30) NOT NULL,
+                Bairro VARCHAR2(30) NOT NULL,
+                Numero int NOT NULL,
+                Rua VARCHAR2(30) NOT NULL,
+                CEP VARCHAR2(30) NOT NULL,
+                CONSTRAINT ID_ENDERECO_PK PRIMARY KEY (ID_Endereco)
+);
+CREATE TABLE Item (
+                ID_item int NOT NULL,
+                Nome VARCHAR2(30) NOT NULL,
+                Quantidade int NOT NULL,
+                Disponivel NUMBER,
+                CONSTRAINT ID_ITEM_PK PRIMARY KEY (ID_item)
+);
+
+CREATE TABLE ItemPedido (
+                ID_pedido int NOT NULL,
+                ID_itensPedido int NOT NULL,
+                Valor FLOAT NOT NULL,
+                quantidade int,
+                ID_item int NOT NULL,
+                CONSTRAINT ITENSPEDIDO_PK PRIMARY KEY (ID_itensPedido),
+                CONSTRAINT ITENS_FK FOREIGN KEY (ID_item) references  Item (ID_item),
+                Constraint Pedido_fk Foreign key (ID_pedido) references Pedido (ID_pedido)
+);
+
+CREATE TABLE Pedido (
+                ID_pedido int NOT NULL,
+                ID_CLiente int NOT NULL,
+                datapedido DATE,
+                horapedido int NOT NULL,
+                valorPedido FLOAT NOT NULL,
+                LocalDEEntrega VARCHAR2(30) NOT NULL,
+                CONSTRAINT ID_PEDIDO_PK PRIMARY KEY (id_pedido),
+                CONSTRAINT ID_CLIENTE_FK FOREIGN KEY (ID_Cliente) REFERENCES Cliente (ID_CLiente)
+);
+
+CREATE TABLE Entregador (
+                ID_Entregador int NOT NULL,
+                ID_Veiculo int NOT NULL,
+                ID_Endereco int NOT NULL,
+                Nome VARCHAR2(30) NOT NULL,
+                Email VARCHAR2(30) NOT NULL,
+                Telefone VARCHAR2(30) NOT NULL,
+                CONSTRAINT ID_ENTREGADOR_PK PRIMARY KEY (ID_Entregador),
+                CONSTRAINT ID_VEICULO_FK FOREIGN KEY (ID_Veiculo) references Veiculo(ID_Veiculo),
+                CONSTRAINT ID_ENDERECO_FK FOREIGN KEY (ID_Endereco) references Endereco(ID_Endereco)
+);
+
+CREATE TABLE Entregador_Fisico (
+                ID_Entregador int NOT NULL,
+                CPF VARCHAR2(30) NOT NULL,
+                CONSTRAINT ID_ENTREGADOR_FISICO_FK FOREIGN KEY (ID_Entregador) references Entregador (ID_Entregador)
+);
+CREATE TABLE Entregador_Juridico (
+                ID_Entregador int NOT NULL,
+                CNPJ VARCHAR2(30) NOT NULL,
+                CONSTRAINT ID_ENTREGADOR_JURIDICO_FK FOREIGN KEY (ID_Entregador) references Entregador (ID_Entregador)
+);
+CREATE TABLE Veiculo (
+                ID_Veiculo int NOT NULL,
+                TipoVeiculo VARCHAR2(30) NOT NULL,
+                PesoMAx float NOT NULL,
+                CONSTRAINT ID_VEICULO_PK PRIMARY KEY (ID_Veiculo)
+);
+
+
+
+
